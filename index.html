@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GESTIÓN DE VEHÍCULOS</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Título principal */
+    #parrafo {
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        font-size: 2rem;
+        color: #333;
+        margin: 40px 0 20px 0;
+    }
+
+    /* Contenedor del formulario */
+    .form-container {
+        background-color: #e0e0e0;
+        width: 450px;
+        margin: 0 auto;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .form-container h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        color: #000;
+        text-align: left;
+        margin-top: 0;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #000;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        color: black;
+        font-size: 1rem;
+        background-color: #fff;
+    }
+
+    select {
+        cursor: pointer;
+    }
+
+    .form-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .form-buttons button {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .btn-agregar {
+        background-color: #007bff;
+    }
+
+    .btn-limpiar {
+        background-color: #6c757d;
+    }
+
+    .form-buttons button:hover {
+        opacity: 0.85;
+    }
+
+    /* Lista de vehículos */
+    .lista-vehiculos-container {
+        width: 450px;
+        margin: 20px auto;
+        padding: 15px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .lista-vehiculos-container label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    #filtroTipo {
+        width: 100%;
+        padding: 6px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 1rem;
+    }
+
+    .vehiculo-bloque {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        color: #000;
+    }
+
+    .vehiculo-bloque button {
+        padding: 4px 8px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #dc3545;
+        color: white;
+        font-size: 0.8rem;
+    }
+
+    /* Colores según tipo */
+    .suv { background-color: orange; }
+    .sedan { background-color: lightblue; }
+    .camioneta { background-color: yellow; }
+    .deportivo { background-color: lightgreen; }
+
+    /* Sección de estadísticas */
+    .estadisticas-container {
+        width: 450px;
+        margin: 20px auto;
+        padding: 15px;
+        background-color: #001f3f; /* azul marino */
+        color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .estadisticas-container h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    .estadisticas-container p {
+        margin: 5px 0;
+    }
+
+</style>
+</head>
+<body>
+
+<h1 id="parrafo"><strong>Gestión de Vehículos</strong></h1>
+
+<div class="form-container">
+    <h2>Agregar Vehículo</h2>
+
+    <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca">
+    </div>
+
+    <div class="form-group">
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo">
+    </div>
+
+    <div class="form-group">
+        <label for="anio">Año:</label>
+        <input type="number" id="anio">
+    </div>
+
+    <div class="form-group">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo">
+            <option value="" selected disabled>Seleccionar</option>
+            <option value="suv">SUV</option>
+            <option value="camioneta">Camioneta</option>
+            <option value="sedan">Sedán</option>
+            <option value="deportivo">Deportivo</option>
+        </select>
+    </div>
+
+    <div class="form-buttons">
+        <button class="btn-agregar" id="agregarBtn">Agregar Vehículo</button>
+        <button class="btn-limpiar" type="reset" id="limpiarBtn">Limpiar Formulario</button>
+    </div>
+</div>
+
+<!-- Lista de vehículos -->
+<div class="lista-vehiculos-container">
+    <label for="filtroTipo">Filtrar por tipo:</label>
+    <select id="filtroTipo">
+        <option value="Todos" selected>Todos</option>
+        <option value="suv">SUV</option>
+        <option value="sedan">Sedán</option>
+        <option value="camioneta">Camioneta</option>
+        <option value="deportivo">Deportivo</option>
+    </select>
+
+    <div id="listaVehiculos"></div>
+</div>
+
+<!-- Estadísticas -->
+<div class="estadisticas-container">
+    <h3>Estadísticas</h3>
+    <p id="totalVehiculos">Total: 0 vehículos</p>
+    <p id="vehiculoMasAntiguo">Más antiguo: N/A</p>
+    <p id="cantidadPorTipo">Sedán: 0 | SUV: 0 | Deportivo: 0 | Camioneta: 0</p>
+    <p id="promedioAntiguedad">Promedio antigüedad: 0 años</p>
+</div>
+
+<script>
+/* CLASE VEHICULO */
+class Vehiculo {
+    constructor(marca, modelo, anio, tipo) {
+        try {
+            if(!marca || !modelo || !anio || !tipo) throw new Error("Todos los campos son obligatorios");
+            const currentYear = new Date().getFullYear();
+            if(anio > currentYear) throw new Error("El año no puede ser mayor al actual");
+            this.marca = marca;
+            this.modelo = modelo;
+            this.anio = anio;
+            this.tipo = tipo;
+        } catch(e) {
+            alert(e.message);
+            throw e;
+        }
+    }
+
+    mostrarInfo() {
+        return `${this.marca} - ${this.modelo} - ${this.anio} - ${this.tipo.toUpperCase()}`;
+    }
+
+    calcularAntiguedad() {
+        const currentYear = new Date().getFullYear();
+        return currentYear - this.anio;
+    }
+}
+
+/* CLASE GESTOR VEHICULOS */
+class GestorVehiculos {
+    constructor() {
+        this.listaVehiculos = [];
+    }
+
+    agregarVehiculo(vehiculo) {
+        this.listaVehiculos.push(vehiculo);
+    }
+
+    eliminarVehiculo(index) {
+        this.listaVehiculos.splice(index, 1);
+    }
+
+    filtrarPorTipo(tipo) {
+        if(tipo === "Todos") return this.listaVehiculos;
+        return this.listaVehiculos.filter(v => v.tipo === tipo);
+    }
+
+    obtenerEstadisticas() {
+        const total = this.listaVehiculos.length;
+
+        let masAntiguo = null;
+        if(total > 0) {
+            masAntiguo = this.listaVehiculos.reduce((prev, curr) => prev.anio < curr.anio ? prev : curr);
+        }
+
+        const countTipos = { sedan:0, suv:0, deportivo:0, camioneta:0 };
+        this.listaVehiculos.forEach(v => countTipos[v.tipo]++);
+
+        let promedioAntiguedad = 0;
+        if(total > 0) {
+            const sumaAntiguedad = this.listaVehiculos.reduce((sum,v) => sum + v.calcularAntiguedad(), 0);
+            promedioAntiguedad = (sumaAntiguedad / total).toFixed(1);
+        }
+
+        return { total, masAntiguo, countTipos, promedioAntiguedad };
+    }
+}
+
+/* INSTANCIA DEL GESTOR */
+const gestor = new GestorVehiculos();
+
+/* ELEMENTOS DEL DOM */
+const agregarBtn = document.getElementById("agregarBtn");
+const limpiarBtn = document.getElementById("limpiarBtn");
+const marcaInput = document.getElementById("marca");
+const modeloInput = document.getElementById("modelo");
+const anioInput = document.getElementById("anio");
+const tipoSelect = document.getElementById("tipo");
+const filtroSelect = document.getElementById("filtroTipo");
+const listaDiv = document.getElementById("listaVehiculos");
+
+const totalVehiculosP = document.getElementById("totalVehiculos");
+const vehiculoMasAntiguoP = document.getElementById("vehiculoMasAntiguo");
+const cantidadPorTipoP = document.getElementById("cantidadPorTipo");
+const promedioAntiguedadP = document.getElementById("promedioAntiguedad");
+
+/* FUNCION PARA RENDERIZAR LISTA */
+function renderLista() {
+    listaDiv.innerHTML = "";
+    const tipoFiltro = filtroSelect.value;
+    const vehiculosFiltrados = gestor.filtrarPorTipo(tipoFiltro);
+
+    vehiculosFiltrados.forEach((v, index) => {
+        const bloque = document.createElement("div");
+        bloque.classList.add("vehiculo-bloque");
+        bloque.classList.add(v.tipo); // color según tipo
+        bloque.innerHTML = `
+            <span>${v.mostrarInfo()}</span>
+            <button onclick="borrarVehiculo(${index})">Borrar</button>
+        `;
+        listaDiv.appendChild(bloque);
+    });
+
+    actualizarEstadisticas();
+}
+
+/* FUNCION BORRAR VEHICULO */
+function borrarVehiculo(index) {
+    gestor.eliminarVehiculo(index);
+    renderLista();
+}
+
+/* FUNCION ACTUALIZAR ESTADISTICAS */
+function actualizarEstadisticas() {
+    const stats = gestor.obtenerEstadisticas();
+    totalVehiculosP.textContent = `Total: ${stats.total} vehículos`;
+    if(stats.masAntiguo) {
+        vehiculoMasAntiguoP.textContent = `Más antiguo: ${stats.masAntiguo.mostrarInfo()}`;
+    } else {
+        vehiculoMasAntiguoP.textContent = `Más antiguo: N/A`;
+    }
+    cantidadPorTipoP.textContent = `Sedán: ${stats.countTipos.sedan} | SUV: ${stats.countTipos.suv} | Deportivo: ${stats.countTipos.deportivo} | Camioneta: ${stats.countTipos.camioneta}`;
+    promedioAntiguedadP.textContent = `Promedio antigüedad: ${stats.promedioAntiguedad} años`;
+}
+
+/* EVENTOS */
+agregarBtn.addEventListener("click", () => {
+    try {
+        const vehiculo = new Vehiculo(
+            marcaInput.value,
+            modeloInput.value,
+            parseInt(anioInput.value),
+            tipoSelect.value
+        );
+        gestor.agregarVehiculo(vehiculo);
+        renderLista();
+        // Limpiar formulario automáticamente
+        marcaInput.value = "";
+        modeloInput.value = "";
+        anioInput.value = "";
+        tipoSelect.value = "";
+    } catch(e) {}
+});
+
+filtroSelect.addEventListener("change", renderLista);
+
+limpiarBtn.addEventListener("click", () => {
+    marcaInput.value = "";
+    modeloInput.value = "";
+    anioInput.value = "";
+    tipoSelect.value = "";
+});
+
+</script>
+
+</body>
+</html>
